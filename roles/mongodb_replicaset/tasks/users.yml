@@ -1,0 +1,20 @@
+---
+- name: Create administrative user
+  community.mongodb.mongodb_user:
+    database: admin
+    user: admin
+    password: "{{ admin_password }}"
+    state: present
+    replica_set: "{{ mongodb_replication_replset }}"
+    roles:
+      - db: admin
+        role: userAdminAnyDatabase
+      - readWriteAnyDatabase
+
+- name: Create test database and user
+  community.mongodb.mongodb_user:
+    database: "{{ test_database_name }}"
+    name: "{{ test_database_user }}"
+    password: "{{ user_password }}"
+    roles: readWrite,dbAdmin,userAdmin
+    state: present

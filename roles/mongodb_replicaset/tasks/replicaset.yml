@@ -1,0 +1,15 @@
+---
+- name: Replicaset with one arbiter node (mongodb5 - index is zero-based)
+  community.mongodb.mongodb_replicaset:
+    replica_set: "{{ mongodb_replication_replset }}"
+    members: "{{ groups.mongodb_instances | join(',') }}"
+    arbiter_at_index: 4
+  when: groups.mongodb_instances.index(inventory_hostname) == 0
+
+- name: Wait for the replicaset to stabilise after member removal
+  community.mongodb.mongodb_status:
+    replica_set: "{{ mongodb_replication_replset }}"
+    validate: minimal
+    poll: 5
+    interval: 10
+  when: groups.mongodb_instances.index(inventory_hostname) == 0

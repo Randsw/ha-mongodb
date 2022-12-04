@@ -1,0 +1,64 @@
+---
+mongodb_package: mongodb-org
+mongodb_package_state: present
+mongodb_major_version: "6.0"
+
+mongodb_user: mongodb
+mongodb_group: mongodb
+mongodb_daemon_name: "{{ 'mongod' if ('mongodb-org' in mongodb_package) else 'mongodb' }}"
+mongodb_manage_service: true
+mongodb_manage_systemd_unit: true
+
+## net Options
+mongodb_net_bindip: 127.0.0.1                    # Comma separated list of ip addresses to listen on
+mongodb_net_ipv6: false                          # Enable IPv6 support (disabled by default)
+mongodb_net_maxconns: 65536                      # Max number of simultaneous connections
+mongodb_net_port: 27017                          # Specify port number
+
+## processManagement Options
+# Fork server process
+# Enabled by default for RedHat as the init scripts assume forking is enabled.
+mongodb_processmanagement_fork: "{{ 'RedHat' == ansible_os_family }}"
+
+## security Options
+# Disable or enable security. Possible values: 'disabled', 'enabled'
+mongodb_security_authorization: "disabled"
+mongodb_security_keyfile: /etc/mongodb-keyfile   # Specify path to keyfile with password for inter-process authentication
+mongodb_security_javascript_enabled: true        # Enables or disables server-side JavaScript execution
+
+## storage Options
+mongodb_storage_dbpath: /var/lib/mongodb/                # Directory for datafiles
+mongodb_storage_dirperdb: false                  # Use one directory per DB
+# The storage engine for the mongod database
+mongodb_storage_engine: "wiredTiger"
+mongodb_storage_journal_enabled: true            # Enable journaling
+mongodb_storage_prealloc: true                   # Enable data file preallocation
+
+mongodb_wiredtiger_directory_for_indexes: false
+
+## systemLog Options
+## The destination to which MongoDB sends all log output. Specify either 'file' or 'syslog'.
+## If you specify 'file', you must also specify mongodb_systemlog_path.
+mongodb_systemlog_destination: "file"
+mongodb_systemlog_logappend: true                                        # Append to logpath instead of over-writing
+mongodb_systemlog_logrotate: "rename"                                    # Logrotation behavior
+mongodb_systemlog_path: /var/log/mongodb/{{ mongodb_daemon_name }}.log   # Log file to send write to instead of stdout
+
+## operationProfiling Options
+mongodb_operation_profiling_slow_op_threshold_ms: 100
+mongodb_operation_profiling_mode: "off"
+
+## cloud options (MongoDB >= 4.0)
+mongodb_cloud_monitoring_free_state: "runtime"
+
+## replication Options
+mongodb_replication_replset: ""                   # Enable replication
+mongodb_replication_replindexprefetch: "all"      # specify index prefetching behavior (if secondary) [none|_id_only|all]
+mongodb_replication_oplogsize: 1024               # specifies a maximum size in megabytes for the replication operation log
+
+
+# setParameter config
+mongodb_set_parameters:
+
+# custom config options
+mongodb_config:

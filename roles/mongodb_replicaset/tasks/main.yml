@@ -1,0 +1,7 @@
+---
+- name: Install pymongo
+  ansible.builtin.include_tasks: preflight.yml
+- name: Create replicaset
+  ansible.builtin.include_tasks: replicaset.yml
+- name: Create admin user, test database and test user
+  ansible.builtin.include_tasks: users.yml

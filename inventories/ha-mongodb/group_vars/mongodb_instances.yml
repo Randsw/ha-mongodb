@@ -1,0 +1,6 @@
+---
+mongodb_net_bindip: 0.0.0.0
+mongodb_storage_dbpath: /var/lib/mongodb/
+mongodb_replication_replset: "rs0" 
+admin_password: admin
+user_password: user

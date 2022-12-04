@@ -1,0 +1,92 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+platforms:
+  - name: mongodb-1
+    box: geerlingguy/ubuntu2004
+    memory: 512
+    interfaces:
+      - auto_config: true
+        network_name: private_network
+        ip: 192.168.56.101
+        type: static
+    cpus: 1
+    groups:
+      - mongodb_instances
+  - name: mongodb-2
+    box: geerlingguy/ubuntu2004
+    interfaces:
+      - auto_config: true
+        network_name: private_network
+        ip: 192.168.56.102
+        type: static
+    memory: 512
+    cpus: 1
+    groups:
+      - mongodb_instances
+  - name: mongodb-3
+    box: geerlingguy/ubuntu2004
+    interfaces:
+      - auto_config: true
+        network_name: private_network
+        ip: 192.168.56.103
+        type: static
+    memory: 512
+    cpus: 1
+    groups:
+      - mongodb_instances
+  - name: mongodb-4
+    box: geerlingguy/ubuntu2004
+    interfaces:
+      - auto_config: true
+        network_name: private_network
+        ip: 192.168.56.104
+        type: static
+    memory: 512
+    cpus: 1
+    groups:
+      - mongodb_instances
+  - name: mongodb-5
+    box: geerlingguy/ubuntu2004
+    interfaces:
+      - auto_config: true
+        network_name: private_network
+        ip: 192.168.56.105
+        type: static
+    memory: 512
+    cpus: 1
+    groups:
+      - mongodb_instances
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      pipelining: true
+  log: true
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-../default/converge.yml}
+  inventory:
+    host_vars:
+      mongodb-1:
+        ansible_python_interpreter: auto_silent
+        ip_adr: 192.168.56.101
+      mongodb-2:
+        ansible_python_interpreter: auto_silent
+        ip_adr: 192.168.56.102
+      mongodb-3:
+        ansible_python_interpreter: auto_silent
+        ip_adr: 192.168.56.103
+      mongodb-4:
+        ansible_python_interpreter: auto_silent
+        ip_adr: 192.168.56.104
+      mongodb-5:
+        ansible_python_interpreter: auto_silent
+        ip_adr: 192.168.56.105

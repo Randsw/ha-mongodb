@@ -1,0 +1,25 @@
+---
+- name: Install mongodb GPG key
+  ansible.builtin.get_url:
+    url: https://www.mongodb.org/static/pgp/server-6.0.asc
+    #dest: /etc/apt/keyrings/mongodb.asc
+    dest: /usr/share/keyrings/mongodb.asc
+    mode: '0644'
+    force: true
+
+- name: Add mongodb repo
+  ansible.builtin.apt_repository:
+    filename: mongodb-repo
+    repo: >
+        deb [arch=amd64 signed-by=/usr/share/keyrings/mongodb.asc] https://repo.mongodb.org/apt/{{ ansible_distribution | lower }}
+         {{ ansible_distribution_release }}/mongodb-org/{{ mongodb_major_version }} multiverse
+    state: present
+    update_cache: yes
+  changed_when: false
+
+- name: Install Packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ mongodb_package }}"
