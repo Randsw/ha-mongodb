@@ -20,7 +20,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies
-        run: pip3 install molecule[vagrant] yamllint ansible-lint ansible testinfra pytest
+        run: pip3 install molecule[docker] yamllint ansible-lint ansible testinfra pytest
 
       - name: Run Molecule test
         working-directory: ./roles/mongodb_install
