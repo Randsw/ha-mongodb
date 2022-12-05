@@ -2,9 +2,7 @@
 dependency:
   name: galaxy
 driver:
-  name: vagrant
-  provider:
-    name: virtualbox
+  name: docker
 platforms:
   # - name: testserver
   #   box: geerlingguy/ubuntu2004
