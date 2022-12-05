@@ -2,8 +2,8 @@
 name: mongo-db-install-ci
 on:
   push:
-    tags:
-    - '*'
+    branches:
+      - "main"
 
 jobs:
   test:
