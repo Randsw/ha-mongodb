@@ -60,6 +60,6 @@ provisioner:
       pipelining: true
   log: true
   playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-../default/converge.yml}
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
 verifier:
   name: ansible

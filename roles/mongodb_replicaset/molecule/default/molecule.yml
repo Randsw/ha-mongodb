@@ -84,7 +84,7 @@ provisioner:
     ANSIBLE_VERBOSITY: 1
   log: true
   playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-../default/converge.yml}
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
   inventory:
     host_vars:
       mongodb-1:
