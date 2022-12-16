@@ -10,6 +10,7 @@
       - db: admin
         role: userAdminAnyDatabase
       - readWriteAnyDatabase
+  changed_when: false
 
 - name: Create test database and user
   community.mongodb.mongodb_user:
@@ -18,3 +19,4 @@
     password: "{{ user_password }}"
     roles: readWrite,dbAdmin,userAdmin
     state: present
+  changed_when: false

@@ -1,0 +1,26 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  vars:
+    mongodb_replication_replset: "rs0"
+    admin_password: admin
+
+  tasks:
+  post_tasks:
+    # Get the replicaset status and then lookup the primary's hostname and save to a variable
+    - name: Ensure replicaset is stable before beginning
+      community.mongodb.mongodb_status:
+        login_user: "admin"
+        login_password: "{{ admin_password }}"
+        poll: 3
+        interval: 10
+        replica_set: "{{ mongodb_replication_replset }}"
+      register: rs
+      when: groups.mongodb_instances.index(inventory_hostname) == 0
+
+    - name: Check that replicaset is in a converged state
+      ansible.builtin.assert:
+        that:
+          - "'replicaset is in a converged state' in rs.msg"
+      when: groups.mongodb_instances.index(inventory_hostname) == 0

@@ -6,7 +6,7 @@
     arbiter_at_index: 4
   when: groups.mongodb_instances.index(inventory_hostname) == 0
 
-- name: Wait for the replicaset to stabilise after member removal
+- name: Wait for the replicaset to stabilise
   community.mongodb.mongodb_status:
     replica_set: "{{ mongodb_replication_replset }}"
     validate: minimal

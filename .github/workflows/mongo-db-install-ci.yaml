@@ -22,9 +22,16 @@ jobs:
       - name: Install test dependencies
         run: pip3 install molecule[docker] yamllint ansible-lint ansible testinfra pytest
 
-      - name: Run Molecule test
+      - name: Run Molecule test on mongo_install role
         working-directory: ./roles/mongodb_install
-        run: molecule test
+        run: molecule test -s default
+        env:
+          PY_COLORS : '1'
+          ANSIBLE_FORCE_COLOR: '1'
+
+      - name: Run Molecule test on mongodb_replicaset role
+        working-directory: ./roles/mongodb_replicaset
+        run: molecule test -s docker
         env:
           PY_COLORS : '1'
           ANSIBLE_FORCE_COLOR: '1'
