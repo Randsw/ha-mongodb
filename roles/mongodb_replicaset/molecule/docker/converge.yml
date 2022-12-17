@@ -14,16 +14,17 @@
       ansible.builtin.include_role:
         name: ansible-role-facter
 
-    - name: Fill /etc/hosts with hosts entry
-      ansible.builtin.lineinfile:
-        path: /etc/hosts
-        line: "{{ hostvars[item]['facter_ipaddress'] }}  {{ item }}"
-      loop: "{{ groups['mongodb_instances'] }}"
+    # Docker doesn`t allow change /etc/hosts so this job is failed
+    # - name: Fill /etc/hosts with hosts entry
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/hosts
+    #     line: "{{ hostvars[item]['facter_ipaddress'] }}  {{ item }}"
+    #   loop: "{{ groups['mongodb_instances'] }}"
 
-    - name: Test hosts
-      ansible.builtin.debug:
-        msg: "{{ hostvars[item]['facter_ipaddress'] }}  {{ item }}"
-      loop: "{{ groups['mongodb_instances'] }}"
+    # - name: Test hosts
+    #   ansible.builtin.debug:
+    #     msg: "{{ hostvars[item]['facter_ipaddress'] }}  {{ item }}"
+    #   loop: "{{ groups['mongodb_instances'] }}"
 
   roles:
     - {role: mongodb_install}
